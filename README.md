@@ -13,9 +13,8 @@
 ### Dans cet exercice, vous devrez utiliser :
 - React
 - TypeScript
-- Redux
 
-### Bonus
+### En option :
 - Ajouter une feature qui vous semble interressante
 - Utiliser Redux Saga.
 
@@ -52,5 +51,4 @@ Sur la page d'accueil :
 - Fournissez une documentation claire sur la manière d'exécuter, tester et déployer le projet.
 - Adoptez les bonnes pratiques Git : commits clairs, messages explicites, etc.
 - Bonus
-  - Implémentez la gestion des effets secondaires avec Redux Saga pour gérer les appels API.
   - Ajoutez des tests unitaires ou d’intégration (exemple : Jest, React Testing Library).
