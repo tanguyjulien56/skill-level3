@@ -40,7 +40,8 @@ const InformationPage: React.FC = () => {
   // Sauvegarde automatique dans Redux à chaque modification du formulaire
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(updateForm(formik.values)); // Met à jour le store Redux avec les nouvelles valeurs du formulaire
+      console.log("Valeurs envoyées à Redux :", formik.values);
+      dispatch(updateForm(formik.values)); // Met à jour le store Redux
     }, 500); // Délai pour éviter les appels trop fréquents
 
     return () => clearTimeout(timer); // Annule le timer lors du changement rapide de valeurs
