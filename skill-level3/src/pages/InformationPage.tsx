@@ -1,4 +1,3 @@
-
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
@@ -9,6 +8,32 @@ const validationSchema = Yup.object({
   lastName: Yup.string().required("Le nom est requis"),
   birthDate: Yup.date().required("La date de naissance est requise").nullable(),
 });
+
+// Composant pour un champ de formulaire avec validation
+const InputField: React.FC<{
+  id: string;
+  name: string;
+  type: string;
+  placeholder: string;
+}> = ({ id, name, type, placeholder }) => (
+  <div className="form-control">
+    <label htmlFor={id} className="label">
+      {placeholder}:
+    </label>
+    <Field
+      type={type}
+      id={id}
+      name={name}
+      placeholder={`Entrez votre ${placeholder.toLowerCase()}`}
+      className="input input-bordered w-full"
+    />
+    <ErrorMessage
+      name={name}
+      component="div"
+      className="text-red-500 text-sm mt-1"
+    />
+  </div>
+);
 
 const InformationPage: React.FC = () => {
   return (
@@ -22,63 +47,31 @@ const InformationPage: React.FC = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          console.log(values);
+          console.log(values); // Logique de soumission du formulaire
         }}
       >
         <Form className="space-y-4">
-          <div className="form-control">
-            <label htmlFor="firstName" className="label">
-              Prénom:
-            </label>
-            <Field
-              type="text"
-              id="firstName"
-              name="firstName"
-              placeholder="Entrez votre prénom"
-              className="input input-bordered w-full"
-            />
-            <ErrorMessage
-              name="firstName"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+          {/* Utilisation du composant InputField pour chaque champ */}
+          <InputField
+            id="firstName"
+            name="firstName"
+            type="text"
+            placeholder="Prénom"
+          />
+          <InputField
+            id="lastName"
+            name="lastName"
+            type="text"
+            placeholder="Nom"
+          />
+          <InputField
+            id="birthDate"
+            name="birthDate"
+            type="date"
+            placeholder="Date de naissance"
+          />
 
-          <div className="form-control">
-            <label htmlFor="lastName" className="label">
-              Nom:
-            </label>
-            <Field
-              type="text"
-              id="lastName"
-              name="lastName"
-              placeholder="Entrez votre nom"
-              className="input input-bordered w-full"
-            />
-            <ErrorMessage
-              name="lastName"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
-
-          <div className="form-control">
-            <label htmlFor="birthDate" className="label">
-              Date de naissance:
-            </label>
-            <Field
-              type="date"
-              id="birthDate"
-              name="birthDate"
-              className="input input-bordered w-full"
-            />
-            <ErrorMessage
-              name="birthDate"
-              component="div"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
-
+          {/* Bouton de soumission */}
           <button type="submit" className="btn btn-primary w-full mt-4">
             Soumettre
           </button>
