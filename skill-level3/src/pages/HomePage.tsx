@@ -3,7 +3,7 @@ import UserProfile from "../components/UserProfileCard";
 import { userData } from "../data/userData";
 const HomePage: React.FC = () => {
   return (
-    <div className="App">
+    <div className="home_page max-w-md m-auto pt-24">
       <UserProfile userData={userData} />
     </div>
   );
