@@ -14,41 +14,38 @@ const useUserData = (userData: UserData) => {
         const response = await axios.get(
           `https://dummyjson.com/users/search?q=${userData.firstName}`
         );
-        if (response.data.users && response.data.users.length > 0) {
-          setImageUrl(response.data.users[0]?.image || null);
-        } else {
-          setImageUrl("/no_image_available.png"); // Image par défaut si pas trouvée
-        }
+        const user = response.data.users?.[0]; // Sécurise l'accès à l'objet utilisateur
+        setImageUrl(user?.image || "/no_image_available.png");
       } catch (error) {
         console.error("Error fetching image", error);
-        setImageUrl("/no_image_available.png"); // Image de secours en cas d'erreur
+        setImageUrl("/no_image_available.png");
       }
     };
 
     const calculateDaysToBirthday = () => {
-      if (userData.birthDate) {
-        const birthday = new Date(userData.birthDate);
-        if (isNaN(birthday.getTime())) {
-          setDaysToBirthday("Date d'anniversaire invalide");
-          return;
-        }
-
-        const today = new Date();
-        if (userData.birthDate.split("-").length !== 3) {
-          setDaysToBirthday("Date d'anniversaire incomplète");
-          return;
-        }
-
-        birthday.setFullYear(today.getFullYear());
-        if (today > birthday) {
-          birthday.setFullYear(today.getFullYear() + 1);
-        }
-
-        const diffTime = birthday.getTime() - today.getTime();
-        setDaysToBirthday(Math.ceil(diffTime / (1000 * 3600 * 24)));
-      } else {
-        setDaysToBirthday("Pas de date d'anniversaire définie");
+      if (!userData.birthDate) {
+        return setDaysToBirthday("Pas de date d'anniversaire définie");
       }
+
+      const birthday = new Date(userData.birthDate);
+      if (isNaN(birthday.getTime())) {
+        return setDaysToBirthday("Date d'anniversaire invalide");
+      }
+
+      // Si la date d'anniversaire est incomplète
+      const dateParts = userData.birthDate.split("-");
+      if (dateParts.length !== 3) {
+        return setDaysToBirthday("Date d'anniversaire incomplète");
+      }
+
+      const today = new Date();
+      birthday.setFullYear(today.getFullYear());
+      if (today > birthday) {
+        birthday.setFullYear(today.getFullYear() + 1); // Si anniversaire passé, on prend l'année suivante
+      }
+
+      const daysLeft = Math.ceil((birthday.getTime() - today.getTime()) / (1000 * 3600 * 24));
+      setDaysToBirthday(daysLeft);
     };
 
     fetchImage();
