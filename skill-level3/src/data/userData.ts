@@ -1,5 +1,5 @@
 export const userData = {
-  firstName: "John",
+  firstName: "Julien",
   lastName: "Doe",
-  birthDate: "1980-01-01", // Date d'anniversaire correcte
+  birthDate: "", 
 };
