@@ -1,44 +1,62 @@
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { updateForm } from "../redux/formSlice"; // Assure-toi d'importer updateForm correctement
-import { RootState } from "../redux/store"; // Assure-toi que RootState est correctement importé
+import Modal from "../components/Modal"; // Import du composant Modal
+import { updateForm } from "../redux/formSlice";
+import { RootState } from "../redux/store";
 
-// Validation avec Yup
+// Validation du formulaire avec Yup
 const validationSchema = Yup.object({
-  firstName: Yup.string().required("Le prénom est requis"),
-  lastName: Yup.string().required("Le nom est requis"),
-  birthDate: Yup.date().required("La date de naissance est requise").nullable(),
+  firstName: Yup.string()
+    .min(2, "Le prénom doit contenir au moins 2 lettres") // Minimum 2 caractères
+    .required("Le prénom est requis"),
+  lastName: Yup.string()
+    .min(2, "Le nom doit contenir au moins 2 lettres") // Minimum 2 caractères
+    .required("Le nom est requis"),
+  birthDate: Yup.date()
+    .max(new Date(), "La date de naissance ne peut pas être dans le futur") // Validation de la date (ne pas après aujourd'hui)
+    .required("La date de naissance est requise"),
 });
 
 const InformationPage: React.FC = () => {
   const dispatch = useDispatch();
-  const formData = useSelector((state: RootState) => state.form); // On récupère les données du formulaire depuis Redux
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Récupérer les données du formulaire depuis Redux
+  const formData = useSelector((state: RootState) => state.form);
+
+  // Initialisation de Formik avec les valeurs du store Redux
   const formik = useFormik({
-    initialValues: formData, // On prend les valeurs depuis Redux
+    initialValues: formData, // Les valeurs initiales viennent du store Redux
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("Form submitted:", values);
+      setIsModalOpen(true); // Ouvrir la modal après la soumission
     },
-    enableReinitialize: true, // Permet de réinitialiser les valeurs quand l'état Redux change
+    enableReinitialize: true, // Permet de réinitialiser les valeurs si elles changent dans Redux
   });
 
-  // Sauvegarde automatique dans Redux avec chaque modification
+  // Sauvegarde automatique dans Redux à chaque modification du formulaire
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(updateForm(formik.values)); // Met à jour l'état Redux avec les nouvelles valeurs du formulaire
-    }, 500);
+      dispatch(updateForm(formik.values)); // Met à jour le store Redux avec les nouvelles valeurs du formulaire
+    }, 500); // Délai pour éviter les appels trop fréquents
 
-    return () => clearTimeout(timer); // Nettoyage du timer si les valeurs changent rapidement
-  }, [formik.values, dispatch]); // Le hook se déclenche quand `formik.values` change
+    return () => clearTimeout(timer); // Annule le timer lors du changement rapide de valeurs
+  }, [formik.values, dispatch]); // Le hook se déclenche quand les valeurs de Formik changent
+
+  // Afficher les données de Redux pour vérification
+  useEffect(() => {
+    console.log("Données dans le store Redux:", formData);
+  }, [formData]);
 
   return (
     <div className="p-8 max-w-lg mx-auto">
       <h1 className="text-3xl font-bold mb-6">Informations de l'utilisateur</h1>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
+        {/* Champ Prénom */}
         <div className="form-control">
           <label htmlFor="firstName" className="label">
             Prénom:
@@ -58,6 +76,7 @@ const InformationPage: React.FC = () => {
           )}
         </div>
 
+        {/* Champ Nom */}
         <div className="form-control">
           <label htmlFor="lastName" className="label">
             Nom:
@@ -75,6 +94,7 @@ const InformationPage: React.FC = () => {
           )}
         </div>
 
+        {/* Champ Date de naissance */}
         <div className="form-control">
           <label htmlFor="birthDate" className="label">
             Date de naissance:
@@ -94,14 +114,28 @@ const InformationPage: React.FC = () => {
           )}
         </div>
 
+        {/* Bouton de soumission */}
         <button
           type="submit"
           className="btn btn-primary w-full mt-4"
           disabled={formik.isSubmitting}
         >
-          Soumettre
+          Enregistrer
         </button>
       </form>
+
+      {/* Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        message="Utilisateur enregistré avec succès !"
+      />
+
+      {/* Affichage des données dans Redux */}
+      <div className="card p-4 mt-4 ">
+        <h2>Valeurs enregistrées dans Redux :</h2>
+        <pre>{JSON.stringify(formData, null, 2)}</pre>
+      </div>
     </div>
   );
 };
