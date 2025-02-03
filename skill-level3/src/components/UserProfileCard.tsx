@@ -13,7 +13,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
 
   return (
     <>
-      <div className="max-w-5xl flex justify-center mt-16">
+      <div className="max-w-5xl flex justify-center ">
         <div className="card bg-base-100 w-full max-w-md shadow-xl">
           <figure>
             <img
