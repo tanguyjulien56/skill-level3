@@ -1,14 +1,19 @@
 // src/components/UserProfile.tsx
 
 import React from "react";
+import { useSelector } from "react-redux";
 import useUserData from "../services/api/useUserData";
+import { RootState } from "./store";
 import { UserData } from "../types/UserData";
 
 interface UserProfileProps {
   userData: UserData;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
+const UserProfile: React.FC<UserProfileProps> = () => {
+  // Récupère les données de l'utilisateur à partir du store Redux
+  const userData = useSelector((state: RootState) => state.user);
+
   const { imageUrl, daysToBirthday } = useUserData(userData);
 
   return (
@@ -27,12 +32,12 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
               <h2 className="card-title">
                 {userData.firstName} {userData.lastName}
               </h2>
-              {daysToBirthday !== null && (
+              {daysToBirthday !== null ? (
                 <p>Votre anniversaire est dans {daysToBirthday} jours</p>
+              ) : (
+                <p>Anniversaire non défini ou invalide</p>
               )}
-              <div className="card-actions grid grid-cols-2 items-center">
-                <button className="btn btn-primary">Voir plus</button>
-              </div>
+              <div className="card-actions grid grid-cols-2 items-center"></div>
             </div>
           </div>
         </div>

@@ -14,7 +14,21 @@ const useUserData = (userData: UserData) => {
         const response = await axios.get(
           `https://dummyjson.com/users/search?q=${userData.firstName}`
         );
-        const user = response.data.users?.[0]; // Sécurise l'accès à l'objet utilisateur
+
+        // Filtrer les utilisateurs pour obtenir celui qui correspond au prénom et au nom
+        const user = response.data.users?.find(
+          (user: UserData) =>
+            user.firstName.toLowerCase() === userData.firstName.toLowerCase() &&
+            user.lastName.toLowerCase() === userData.lastName.toLowerCase()
+        );
+
+        if (user) {
+          console.log("utilisateur trouvé:", user);
+        } else {
+          console.log("utilisateur non trouvé");
+        }
+
+        // Si l'utilisateur est trouvé, on définit son image, sinon on définit l'image par défaut
         setImageUrl(user?.image || "/no_image_available.png");
       } catch (error) {
         console.error("Error fetching image", error);
@@ -44,7 +58,9 @@ const useUserData = (userData: UserData) => {
         birthday.setFullYear(today.getFullYear() + 1); // Si anniversaire passé, on prend l'année suivante
       }
 
-      const daysLeft = Math.ceil((birthday.getTime() - today.getTime()) / (1000 * 3600 * 24));
+      const daysLeft = Math.ceil(
+        (birthday.getTime() - today.getTime()) / (1000 * 3600 * 24)
+      );
       setDaysToBirthday(daysLeft);
     };
 
