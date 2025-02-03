@@ -9,8 +9,9 @@ interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
+  console.log(userData);
   const { imageUrl, daysToBirthday } = useUserData(userData);
-
+  
   return (
     <>
       <div className="max-w-5xl flex justify-center ">
