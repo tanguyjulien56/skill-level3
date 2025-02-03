@@ -1,5 +1,5 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import React from "react";
+import { ErrorMessage, Form, Formik } from "formik";
+import React, { useState } from "react";
 import * as Yup from "yup";
 
 // Validation avec Yup
@@ -15,16 +15,20 @@ const InputField: React.FC<{
   name: string;
   type: string;
   placeholder: string;
-}> = ({ id, name, type, placeholder }) => (
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ id, name, type, placeholder, value, onChange }) => (
   <div className="form-control">
     <label htmlFor={id} className="label">
       {placeholder}:
     </label>
-    <Field
+    <input
       type={type}
       id={id}
       name={name}
+      value={value}
       placeholder={`Entrez votre ${placeholder.toLowerCase()}`}
+      onChange={onChange}
       className="input input-bordered w-full"
     />
     <ErrorMessage
@@ -36,15 +40,27 @@ const InputField: React.FC<{
 );
 
 const InformationPage: React.FC = () => {
+  // État local pour gérer les données du formulaire
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+  });
+
+  // Mise à jour des données du formulaire en temps réel
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="p-8 max-w-lg mx-auto">
       <h1 className="text-3xl font-bold mb-6">Informations de l'utilisateur</h1>
       <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          birthDate: "",
-        }}
+        initialValues={formData}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           console.log(values); // Logique de soumission du formulaire
@@ -57,18 +73,24 @@ const InformationPage: React.FC = () => {
             name="firstName"
             type="text"
             placeholder="Prénom"
+            value={formData.firstName}
+            onChange={handleInputChange}
           />
           <InputField
             id="lastName"
             name="lastName"
             type="text"
             placeholder="Nom"
+            value={formData.lastName}
+            onChange={handleInputChange}
           />
           <InputField
             id="birthDate"
             name="birthDate"
             type="date"
             placeholder="Date de naissance"
+            value={formData.birthDate}
+            onChange={handleInputChange}
           />
 
           {/* Bouton de soumission */}
