@@ -1,13 +1,20 @@
-import React from "react";
+// src/pages/HomePage.tsx
 
-import ThemeToggle from "../services/theme/ThemeToogle";
+import React from "react";
+import UserProfile from "../components/UserProfileCard";
+import { UserData } from "../types/UserData";
 
 const HomePage: React.FC = () => {
+  const userData: UserData = {
+    firstName: "Juien",
+    lastName: "Doe",
+    birthDate: "1980-06-15", // Date d'anniversaire manquante
+  };
+
   return (
-    <>
-      <ThemeToggle />
-      <p>Page d'accueil</p>
-    </>
+    <div className="App">
+      <UserProfile userData={userData} />
+    </div>
   );
 };
 
