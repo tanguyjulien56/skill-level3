@@ -1,36 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserData } from "../types/UserData";
 
-// Définition du type pour l'état utilisateur
-interface UserState {
-  formData: {
-    firstName: string;
-    lastName: string;
-    birthDate: string;
-  };
-}
 
-const initialState: UserState = {
-  formData: {
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-  },
+const initialState: UserData = {
+  firstName: "",
+  lastName: "",
+  birthDate: null,
 };
 
-// Création du slice pour gérer l'utilisateur
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserData: (
-      state,
-      action: PayloadAction<typeof initialState.formData>
-    ) => {
-      state.formData = action.payload;
+    updateUser: (state, action: PayloadAction<Partial<UserData>>) => {
+      return { ...state, ...action.payload };
     },
   },
 });
 
-// Exportation du reducer et de l'action
-export const { setUserData } = userSlice.actions;
+export const { updateUser } = userSlice.actions;
 export default userSlice.reducer;
