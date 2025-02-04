@@ -7,7 +7,7 @@ interface UserProfileProps {
   userData: UserData;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
+const UserProfileCard: React.FC<UserProfileProps> = ({ userData }) => {
   const { imageUrl, daysToBirthday } = useUserData(userData);
 
   return (
@@ -25,11 +25,11 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
             <h2 className="card-title">
               {userData.firstName} {userData.lastName}
             </h2>
-            {daysToBirthday !== null ? (
-              <p>Votre anniversaire est dans {daysToBirthday} jours</p>
-            ) : (
-              <p>Anniversaire non défini ou invalide</p>
-            )}
+            <p>
+              {typeof daysToBirthday === "number"
+                ? `Votre anniversaire est dans ${daysToBirthday} jours`
+                : daysToBirthday}
+            </p>
           </div>
         </div>
       </div>
@@ -37,4 +37,4 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData }) => {
   );
 };
 
-export default UserProfile;
+export default UserProfileCard;
