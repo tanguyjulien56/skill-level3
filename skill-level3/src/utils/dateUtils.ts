@@ -1,6 +1,6 @@
 export const calculateDaysToBirthday = (birthDate: string): number | string => {
   if (!birthDate) {
-    return "Pas de date d'anniversaire définie";
+    return "Date d'anniversaire invalide";
   }
 
   const birthday = new Date(birthDate);

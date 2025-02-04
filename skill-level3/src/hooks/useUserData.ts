@@ -1,4 +1,3 @@
-// /src/hooks/useUserData.ts
 import { useEffect, useState } from "react";
 import { fetchUserData } from "../services/api/userApi.ts";
 import { UserData } from "../types/userService.ts";
@@ -31,11 +30,12 @@ const useUserData = (userData: UserData) => {
     };
 
     // Calcul des jours restants jusqu'à l'anniversaire
-    setDaysToBirthday(calculateDaysToBirthday(userData.birthDate));
+    const birthdayInfo = calculateDaysToBirthday(userData.birthDate);
+    setDaysToBirthday(birthdayInfo);
 
     // Appel de l'API pour récupérer l'image
     fetchImage();
-  }, [userData]); // Déclenché quand `userData` change
+  }, [userData]);
 
   return { imageUrl, daysToBirthday, error };
 };
