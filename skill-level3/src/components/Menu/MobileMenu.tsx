@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 const MobileMenu = () => (
   <div className="dropdown">
     {/* Bouton hamburger pour ouvrir le menu */}
-    <label tabIndex={0} className="btn btn-ghost rounded-full lg:hidden">
+    <label tabIndex={0} className="btn btn-ghost rounded-full lg:hidden" aria-label="Menu">
+    
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-5 w-5"
