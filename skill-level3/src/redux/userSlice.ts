@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserData } from "../types/UserData";
 
-
 const initialState: UserData = {
   firstName: "",
   lastName: "",
-  birthDate: null,
+  birthDate: "",
 };
 
 const userSlice = createSlice({

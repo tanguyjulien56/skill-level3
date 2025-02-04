@@ -5,17 +5,17 @@ import { RootState } from "../redux/store";
 import { UserData } from "../types/UserData";
 
 const HomePage: React.FC = () => {
-  // Récupérer les données utilisateur depuis Redux (formData)
-  const formData = useSelector((state: RootState) => state.user);
+  // Récupérer les données utilisateur depuis Redux
+  const userState = useSelector((state: RootState) => state.user);
 
-  // Construire userData uniquement si formData change
+  // Construire userData uniquement si userState change
   const userData = useMemo<UserData>(
     () => ({
-      firstName: formData.firstName || "",
-      lastName: formData.lastName || "",
-      birthDate: formData.birthDate || "",
+      firstName: userState.firstName || "",
+      lastName: userState.lastName || "",
+      birthDate: userState.birthDate || "",
     }),
-    [formData]
+    [userState]
   );
   const hasValidUser = userData.firstName && userData.lastName;
 
