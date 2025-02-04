@@ -23,12 +23,12 @@ const InformationPage: React.FC = () => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Récupérer les données du formulaire depuis Redux
-  const formData = useSelector((state: RootState) => state.user);
+  // Récupérer les données du user depuis Redux
+  const userState = useSelector((state: RootState) => state.user);
 
   // Initialisation de Formik avec les valeurs du store Redux
   const formik = useFormik({
-    initialValues: formData, // Les valeurs initiales viennent du store Redux
+    initialValues: userState, // Les valeurs initiales viennent du store Redux
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("Form submitted:", values);
@@ -49,8 +49,8 @@ const InformationPage: React.FC = () => {
 
   // Afficher les données de Redux pour vérification
   useEffect(() => {
-    console.log("Données dans le store Redux:", formData);
-  }, [formData]);
+    console.log("Données dans le store Redux:", userState);
+  }, [userState]);
 
   return (
     <div className="p-8 max-w-lg mx-auto">
@@ -135,7 +135,7 @@ const InformationPage: React.FC = () => {
       {/* Affichage des données dans Redux */}
       <div className="card p-4 mt-4 ">
         <h2>Valeurs enregistrées dans Redux :</h2>
-        <pre>{JSON.stringify(formData, null, 2)}</pre>
+        <pre>{JSON.stringify(userState, null, 2)}</pre>
       </div>
     </div>
   );
