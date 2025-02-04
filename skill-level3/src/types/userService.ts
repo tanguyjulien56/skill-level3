@@ -1,5 +1,6 @@
 export interface UserData {
   firstName: string;
   lastName: string;
-  birthDate: string | null; // format 'YYYY-MM-DD'
+  birthDate: string; // format 'YYYY-MM-DD'
+  image?: string;
 }

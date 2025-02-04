@@ -1,6 +1,7 @@
 import React from "react";
-import useUserData from "../services/api/useUserData";
-import { UserData } from "../types/UserData";
+
+import useUserData from "../hooks/useUserData";
+import { UserData } from "../types/userService";
 
 // Déclaration de l'interface pour les props
 interface UserProfileProps {

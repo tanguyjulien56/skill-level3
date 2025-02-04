@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import UserProfileCard from "../components/UserProfileCard";
 import { RootState } from "../redux/store";
-import { UserData } from "../types/UserData";
+import { UserData } from "../types/userService";
 
 const HomePage: React.FC = () => {
   // Récupérer les données utilisateur depuis Redux
