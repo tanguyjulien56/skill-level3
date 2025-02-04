@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import Modal from "../components/Modal"; // Import du composant Modal
-import { updateForm } from "../redux/formSlice";
 import { RootState } from "../redux/store";
+import { updateUser } from "../redux/userSlice";
 
 // Validation du formulaire avec Yup
 const validationSchema = Yup.object({
@@ -24,7 +24,7 @@ const InformationPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Récupérer les données du formulaire depuis Redux
-  const formData = useSelector((state: RootState) => state.form);
+  const formData = useSelector((state: RootState) => state.user);
 
   // Initialisation de Formik avec les valeurs du store Redux
   const formik = useFormik({
@@ -41,7 +41,7 @@ const InformationPage: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       console.log("Valeurs envoyées à Redux :", formik.values);
-      dispatch(updateForm(formik.values)); // Met à jour le store Redux
+      dispatch(updateUser(formik.values)); // Met à jour le store Redux
     }, 500); // Délai pour éviter les appels trop fréquents
 
     return () => clearTimeout(timer); // Annule le timer lors du changement rapide de valeurs

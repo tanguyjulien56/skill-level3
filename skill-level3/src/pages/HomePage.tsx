@@ -6,7 +6,7 @@ import { UserData } from "../types/UserData";
 
 const HomePage: React.FC = () => {
   // Récupérer les données utilisateur depuis Redux (formData)
-  const formData = useSelector((state: RootState) => state.form);
+  const formData = useSelector((state: RootState) => state.user);
 
   // Construire userData uniquement si formData change
   const userData = useMemo<UserData>(
