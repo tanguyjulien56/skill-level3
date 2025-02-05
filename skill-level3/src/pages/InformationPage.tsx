@@ -2,20 +2,20 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import Modal from "../components/Modal"; // Import du composant Modal
+import Modal from "../components/Modal";
 import { RootState } from "../redux/store";
 import { updateUser } from "../redux/userSlice";
 
 // Validation du formulaire avec Yup
 const validationSchema = Yup.object({
   firstName: Yup.string()
-    .min(2, "Le prénom doit contenir au moins 2 lettres") // Minimum 2 caractères
+    .min(2, "Le prénom doit contenir au moins 2 lettres")
     .required("Le prénom est requis"),
   lastName: Yup.string()
-    .min(2, "Le nom doit contenir au moins 2 lettres") // Minimum 2 caractères
+    .min(2, "Le nom doit contenir au moins 2 lettres")
     .required("Le nom est requis"),
   birthDate: Yup.date()
-    .max(new Date(), "La date de naissance ne peut pas être dans le futur") // Validation de la date (ne pas après aujourd'hui)
+    .max(new Date(), "La date de naissance ne peut pas être dans le futur")
     .required("La date de naissance est requise"),
 });
 
@@ -40,17 +40,14 @@ const InformationPage: React.FC = () => {
   // Sauvegarde automatique dans Redux à chaque modification du formulaire
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("Valeurs envoyées à Redux :", formik.values);
       dispatch(updateUser(formik.values)); // Met à jour le store Redux
-    }, 500); // Délai pour éviter les appels trop fréquents
+    }, 500);
 
     return () => clearTimeout(timer); // Annule le timer lors du changement rapide de valeurs
   }, [formik.values, dispatch]); // Le hook se déclenche quand les valeurs de Formik changent
 
   // Afficher les données de Redux pour vérification
-  useEffect(() => {
-    console.log("Données dans le store Redux:", userState);
-  }, [userState]);
+  useEffect(() => {}, [userState]);
 
   return (
     <div className="p-8 max-w-lg mx-auto">
