@@ -1,8 +1,11 @@
-import React, { useMemo } from "react";
+import React, { lazy, Suspense, useMemo } from "react";
 import { useSelector } from "react-redux";
-import UserProfileCard from "../components/UserProfileCard";
+
 import { RootState } from "../redux/store";
 import { UserData } from "../types/userService";
+
+// Chargement dynamique de UserProfileCard
+const UserProfileCard = lazy(() => import("../components/UserProfileCard"));
 
 const HomePage: React.FC = () => {
   // Récupérer les données utilisateur depuis Redux
@@ -22,7 +25,9 @@ const HomePage: React.FC = () => {
   return (
     <div className="home_page max-w-md m-auto pt-24">
       {hasValidUser ? (
-        <UserProfileCard userData={userData} />
+        <Suspense fallback={<div>Chargement du profil...</div>}>
+          <UserProfileCard userData={userData} />
+        </Suspense>
       ) : (
         <div className="text-center text-lg text-red-500">
           Aucune donnée utilisateur disponible
