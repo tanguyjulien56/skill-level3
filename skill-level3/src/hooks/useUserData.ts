@@ -4,40 +4,33 @@ import { UserData } from "../types/userService.ts";
 import { calculateDaysToBirthday } from "../utils/dateUtils";
 
 const useUserData = (userData: UserData) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [daysToBirthday, setDaysToBirthday] = useState<number | string>(
     "Date d'anniversaire invalide"
   );
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fonction pour récupérer l'image de l'utilisateur
     const fetchImage = async () => {
+      setLoading(true);
       try {
         const user = await fetchUserData(userData.firstName, userData.lastName);
-
-        if (user) {
-          setImageUrl(user.image || "/no_image_available.png");
-        } else {
-          setImageUrl("/no_image_available.png");
-          setError("Utilisateur non trouvé");
-        }
+        setImageUrl(user?.image || "/no_image_available.png");
       } catch (error) {
         console.error("Erreur lors de la récupération de l'image", error);
         setImageUrl("/no_image_available.png");
         setError("Erreur lors de la récupération des données");
+      } finally {
+        setLoading(false);
       }
     };
 
-    // Calcul des jours restants jusqu'à l'anniversaire
-    const birthdayInfo = calculateDaysToBirthday(userData.birthDate);
-    setDaysToBirthday(birthdayInfo);
-
-    // Appel de l'API pour récupérer l'image
+    setDaysToBirthday(calculateDaysToBirthday(userData.birthDate));
     fetchImage();
   }, [userData]);
 
-  return { imageUrl, daysToBirthday, error };
+  return { imageUrl, daysToBirthday, error, loading };
 };
 
 export default useUserData;
