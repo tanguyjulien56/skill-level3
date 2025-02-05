@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Modal from "../components/Modal";
 import { RootState } from "../redux/store";
@@ -20,6 +21,7 @@ const validationSchema = Yup.object({
 });
 
 const InformationPage: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,6 +35,9 @@ const InformationPage: React.FC = () => {
     onSubmit: (values) => {
       console.log("Form submitted:", values);
       setIsModalOpen(true); // Ouvrir la modal après la soumission
+      setTimeout(() => {
+        navigate("/"); // Redirection vers la page d'accueil
+      }, 2000);
     },
     enableReinitialize: true, // Permet de réinitialiser les valeurs si elles changent dans Redux
   });
@@ -126,7 +131,12 @@ const InformationPage: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        message="Utilisateur enregistré avec succès !"
+        message={
+          <>
+            <p>Utilisateur enregistré avec succès.</p>
+            <p>Redirection vers la page d'accueil !</p>
+          </>
+        }
       />
 
       {/* Affichage des données dans Redux */}

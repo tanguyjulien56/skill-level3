@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useMemo } from "react";
 import { useSelector } from "react-redux";
 
+import { Link } from "react-router";
 import { RootState } from "../redux/store";
 import { UserData } from "../types/userService";
 
@@ -29,8 +30,11 @@ const HomePage: React.FC = () => {
           <UserProfileCard userData={userData} />
         </Suspense>
       ) : (
-        <div className="text-center text-lg text-red-500">
-          Aucune donnée utilisateur disponible
+        <div className="text-center text-lg flex flex-col gap-4 ">
+          <p>Aucune donnée utilisateur disponible</p>
+          <button className="btn btn-primary w-1/2 m-auto">
+            <Link to="/informations">Renseigner un utilisateur </Link>
+          </button>
         </div>
       )}
     </div>
