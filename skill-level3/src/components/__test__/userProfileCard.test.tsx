@@ -10,7 +10,7 @@ describe("UserProfileCard", () => {
     jest.resetAllMocks();
   });
 
-  it("doit afficher l'image par défaut si imageUrl est vide", async () => {
+  it("Should display the default image if `imageUrl` is empty", async () => {
     (useUserData as jest.Mock).mockReturnValue({
       imageUrl: "",
       daysToBirthday: 10,
@@ -28,7 +28,7 @@ describe("UserProfileCard", () => {
       expect(image.src).toContain("/no_image_available.png");
     });
   });
-  it("doit afficher l'image utilisateur si imageUrl est présente", () => {
+  it("Should display the user image if `imageUrl` is present", () => {
     (useUserData as jest.Mock).mockReturnValue({
       imageUrl: "https://example.com/john_doe.jpg",
       daysToBirthday: 10,
@@ -46,7 +46,7 @@ describe("UserProfileCard", () => {
     expect(image.src).toBe("https://example.com/john_doe.jpg");
   });
 
-  it("doit afficher le message d'anniversaire avec un nombre de jours", () => {
+  it("Should display the birthday message with the number of days remaining", () => {
     (useUserData as jest.Mock).mockReturnValue({
       imageUrl: "",
       daysToBirthday: 5,
@@ -65,7 +65,7 @@ describe("UserProfileCard", () => {
     ).toBeInTheDocument();
   });
 
-  it("doit afficher un message générique si daysToBirthday n'est pas un nombre", () => {
+  it("Should display a generic message if `daysToBirthday` is not a number", () => {
     (useUserData as jest.Mock).mockReturnValue({
       imageUrl: "",
       daysToBirthday: "Inconnu",

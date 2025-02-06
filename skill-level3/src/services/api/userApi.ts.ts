@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UserData } from "../../types/userService";
 
-const API_URL = process.env.VITE_API_URL;
+const API_URL = "https://dummyjson.com/users";
 
 // Fonction pour récupérer un utilisateur par prénom ou nom
 export const fetchUserData = async (

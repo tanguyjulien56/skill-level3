@@ -33,10 +33,10 @@ const InformationPage: React.FC = () => {
     initialValues: userState, // Les valeurs initiales viennent du store Redux
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("Form submitted:", values);
+      console.log(values);
       setIsModalOpen(true); // Ouvrir la modal après la soumission
       setTimeout(() => {
-        navigate("/"); // Redirection vers la page d'accueil
+        navigate("/"); 
       }, 2000);
     },
     enableReinitialize: true, // Permet de réinitialiser les valeurs si elles changent dans Redux
@@ -45,7 +45,13 @@ const InformationPage: React.FC = () => {
   // Sauvegarde automatique dans Redux à chaque modification du formulaire
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(updateUser(formik.values)); // Met à jour le store Redux
+      dispatch(
+        updateUser({
+          ...formik.values,
+          lastName: formik.values.lastName.trim(),
+          firstName: formik.values.firstName.trim(),
+        })
+      );
     }, 500);
 
     return () => clearTimeout(timer); // Annule le timer lors du changement rapide de valeurs
