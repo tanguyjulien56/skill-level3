@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import NavBar from "../NavBar";
 
 describe("NavBar", () => {
-  test("devrait afficher les liens de navigation dans DesktopMenu", () => {
+  test("Should display navigation links in DesktopMenu", () => {
     render(
       <Router>
         <NavBar />
@@ -16,11 +16,9 @@ describe("NavBar", () => {
     expect(screen.getAllByText("Informations").length).toBeGreaterThan(0);
   });
 
-  test("devrait afficher les liens de navigation dans MobileMenu", () => {
+  test("Should display navigation links in MobileMenu", () => {
     render(
       <Router>
-        {" "}
-        {/* Envelopper le composant avec Router */}
         <NavBar />
       </Router>
     );

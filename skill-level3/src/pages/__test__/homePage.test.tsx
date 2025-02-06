@@ -13,7 +13,7 @@ jest.mock("react-router", () => ({
 jest.mock("react-redux"); // Mock de tout le module react-redux
 
 describe("HomePage", () => {
-  it("doit afficher un message d'erreur si aucune donnée utilisateur n'est disponible", () => {
+  it("Should display an error message if no user data is available", () => {
     // Utilisation de jest.spyOn pour espionner useSelector
     const useSelectorSpy = jest.spyOn(redux, "useSelector");
     useSelectorSpy.mockReturnValue({
@@ -31,7 +31,7 @@ describe("HomePage", () => {
     ).toBeInTheDocument();
   });
 
-  it("doit afficher le UserProfileCard si des données utilisateur valides sont présentes", async () => {
+  it("Should display the `UserProfileCard` if valid user data is available", async () => {
     // Simule useSelector pour retourner des données utilisateur valides
     const useSelectorSpy = jest.spyOn(redux, "useSelector");
     useSelectorSpy.mockReturnValue({
