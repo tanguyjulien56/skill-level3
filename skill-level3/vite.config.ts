@@ -2,6 +2,9 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  define: {
+    "process.env": process.env, //faire en sorte que process.env soir dispo
+  },
   plugins: [react()],
   build: {
     rollupOptions: {

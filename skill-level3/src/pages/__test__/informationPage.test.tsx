@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
 import store from "../../redux/store";
 import InformationPage from "../InformationPage";
 
@@ -14,12 +15,12 @@ jest.mock("../../components/Modal", () => ({
   }: {
     isOpen: boolean;
     onClose: () => void;
-    message: string;
+    message: React.ReactNode;
   }) =>
     isOpen ? (
       <div data-testid="modal">
-        <p>{message}</p>
-        <button onClick={onClose}>Close</button>
+        <div>{message}</div>
+        <button onClick={onClose}>Fermer</button>
       </div>
     ) : null,
 }));
@@ -28,7 +29,9 @@ describe("InformationPage", () => {
   test("renders the form with initial values from Redux", () => {
     render(
       <Provider store={store}>
-        <InformationPage />
+        <MemoryRouter>
+          <InformationPage />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -41,7 +44,9 @@ describe("InformationPage", () => {
   test("displays validation errors when submitting with empty fields", async () => {
     render(
       <Provider store={store}>
-        <InformationPage />
+        <MemoryRouter>
+          <InformationPage />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -60,7 +65,9 @@ describe("InformationPage", () => {
   test("displays a modal after successful form submission", async () => {
     render(
       <Provider store={store}>
-        <InformationPage />
+        <MemoryRouter>
+          <InformationPage />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -82,7 +89,10 @@ describe("InformationPage", () => {
     await waitFor(() => {
       expect(screen.getByTestId("modal")).toBeInTheDocument();
       expect(
-        screen.getByText("Utilisateur enregistré avec succès !")
+        screen.getByText("Utilisateur enregistré avec succès.")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Redirection vers la page d'accueil !")
       ).toBeInTheDocument();
     });
   });
@@ -90,7 +100,9 @@ describe("InformationPage", () => {
   test("does not submit form with invalid data", async () => {
     render(
       <Provider store={store}>
-        <InformationPage />
+        <MemoryRouter>
+          <InformationPage />
+        </MemoryRouter>
       </Provider>
     );
 

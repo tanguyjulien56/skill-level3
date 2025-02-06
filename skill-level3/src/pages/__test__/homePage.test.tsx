@@ -1,7 +1,14 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
-import * as redux from "react-redux"; 
+import { render, waitFor } from "@testing-library/react";
+import * as redux from "react-redux";
 import HomePage from "../HomePage";
+
+jest.mock("react-router", () => ({
+  ...jest.requireActual("react-router"),
+  Link: ({ to, children }: { to: string; children: React.ReactNode }) => (
+    <a href={to}>{children}</a>
+  ),
+}));
 
 jest.mock("react-redux"); // Mock de tout le module react-redux
 
@@ -24,7 +31,7 @@ describe("HomePage", () => {
     ).toBeInTheDocument();
   });
 
-  it("doit afficher le UserProfileCard si des données utilisateur valides sont présentes", () => {
+  it("doit afficher le UserProfileCard si des données utilisateur valides sont présentes", async () => {
     // Simule useSelector pour retourner des données utilisateur valides
     const useSelectorSpy = jest.spyOn(redux, "useSelector");
     useSelectorSpy.mockReturnValue({
@@ -36,7 +43,7 @@ describe("HomePage", () => {
     // Rendu du composant
     const { getByText } = render(<HomePage />);
 
-    // Vérification de l'affichage des données utilisateur dans le UserProfileCard
-    expect(getByText("John Doe")).toBeInTheDocument(); // Vérifie que le texte "John Doe" est dans le document
+    // Attendre le rendu du UserProfileCard
+    await waitFor(() => expect(getByText("John Doe")).toBeInTheDocument());
   });
 });

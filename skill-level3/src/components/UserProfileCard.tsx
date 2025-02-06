@@ -8,7 +8,7 @@ interface UserProfileProps {
 
 const UserProfileCard: React.FC<UserProfileProps> = ({ userData }) => {
   const { imageUrl, daysToBirthday, loading } = useUserData(userData);
-
+  console.log(imageUrl);
   return (
     <div className="max-w-5xl flex justify-center">
       <div className="card bg-base-100 w-full max-w-md shadow-xl">
@@ -18,7 +18,7 @@ const UserProfileCard: React.FC<UserProfileProps> = ({ userData }) => {
           ) : (
             <img
               className="w-full h-60 object-cover"
-              src={imageUrl}
+              src={imageUrl || "/no_image_available.png"} // Utilise l'image par défaut si imageUrl est vide
               alt={`${userData.firstName} ${userData.lastName}`}
             />
           )}
