@@ -2,7 +2,7 @@
 
 ## Description
 
-**SkillLevel3** is a web application built with Vite, React, and Redux. It allows users to enter their personal information (first name, last name, date of birth) and display a profile with a light/dark theme toggle.
+**SkillLevel3** is a web application built with Vite, React, and Redux. It allows users to enter their personal information (first name, last name, date of birth) and display a profile with photo and birthday Countdown.
 
 ## Features
 - **Home Page** : Displays the user profile if available, otherwise prompts the user to enter information.
