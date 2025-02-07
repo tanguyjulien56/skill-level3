@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useMemo } from "react";
 import { useSelector } from "react-redux";
-
 import { Link } from "react-router";
 import { RootState } from "../redux/store";
 import { UserData } from "../types/userService";
@@ -18,9 +17,11 @@ const HomePage: React.FC = () => {
       firstName: userState.firstName || "",
       lastName: userState.lastName || "",
       birthDate: userState.birthDate || "",
+      image: userState.image || "", // Vérifier si l'image est présente
     }),
     [userState]
   );
+
   const hasValidUser = userData.firstName && userData.lastName;
 
   return (

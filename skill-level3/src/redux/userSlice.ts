@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserData } from "../types/userService";
+import { UserData, UserState } from "../types/userService";
 
-const initialState: UserData = {
+
+const initialState: UserState = {
   firstName: "",
   lastName: "",
   birthDate: "",
+  imageUrl: undefined,
+  daysToBirthday: "Date d'anniversaire invalide",
+  error: null,
+  loading: false,
 };
 
 const userSlice = createSlice({
@@ -14,8 +19,20 @@ const userSlice = createSlice({
     updateUser: (state, action: PayloadAction<Partial<UserData>>) => {
       return { ...state, ...action.payload };
     },
+    setUserImage: (state, action: PayloadAction<string | undefined>) => {
+      state.imageUrl = action.payload;
+    },
+    setDaysToBirthday: (state, action: PayloadAction<number | string>) => {
+      state.daysToBirthday = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
   },
 });
 
-export const { updateUser } = userSlice.actions;
+export const { updateUser, setUserImage, setDaysToBirthday, setError, setLoading } = userSlice.actions;
 export default userSlice.reducer;

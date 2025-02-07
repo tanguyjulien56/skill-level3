@@ -4,3 +4,10 @@ export interface UserData {
   birthDate: string; // format 'YYYY-MM-DD'
   image?: string;
 }
+
+export interface UserState extends UserData {
+  imageUrl: string | undefined;
+  daysToBirthday: number | string;
+  error: string | null;
+  loading: boolean;
+}
