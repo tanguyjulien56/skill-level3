@@ -30,35 +30,22 @@ const InformationPage: React.FC = () => {
 
   // Initialisation de Formik avec les valeurs du store Redux
   const formik = useFormik({
-    initialValues: userState, // Les valeurs initiales viennent du store Redux
+    initialValues: userState,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-      setIsModalOpen(true); // Ouvrir la modal après la soumission
+    onSubmit: () => {
+      setIsModalOpen(true);
       setTimeout(() => {
-        navigate("/"); 
+        navigate("/");
       }, 2000);
     },
-    enableReinitialize: true, // Permet de réinitialiser les valeurs si elles changent dans Redux
+    enableReinitialize: true,
   });
 
   // Sauvegarde automatique dans Redux à chaque modification du formulaire
   useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(
-        updateUser({
-          ...formik.values,
-          lastName: formik.values.lastName.trim(),
-          firstName: formik.values.firstName.trim(),
-        })
-      );
-    }, 500);
-
-    return () => clearTimeout(timer); // Annule le timer lors du changement rapide de valeurs
-  }, [formik.values, dispatch]); // Le hook se déclenche quand les valeurs de Formik changent
-
-  // Afficher les données de Redux pour vérification
-  useEffect(() => {}, [userState]);
+    // Quand les valeurs du formulaire changent, on met à jour Redux
+    dispatch(updateUser(formik.values));
+  }, [formik.values, dispatch]);
 
   return (
     <div className="p-8 max-w-lg mx-auto">
@@ -144,12 +131,6 @@ const InformationPage: React.FC = () => {
           </>
         }
       />
-
-      {/* Affichage des données dans Redux */}
-      <div className="card p-4 mt-4 ">
-        <h2>Valeurs enregistrées dans Redux :</h2>
-        <pre>{JSON.stringify(userState, null, 2)}</pre>
-      </div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ describe("NavBar", () => {
       </Router>
     );
 
-    // Vérification des liens dans le DesktopMenu
+
     expect(screen.getAllByText("Home").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Informations").length).toBeGreaterThan(0);
   });
@@ -23,11 +23,11 @@ describe("NavBar", () => {
       </Router>
     );
 
-    // Ouvrir le menu mobile en cliquant sur le bouton hamburger
+   
     fireEvent.click(screen.getByLabelText(/menu/i));
 
     // Vérification des liens dans le MobileMenu
-    expect(screen.getAllByText("Home").length).toBeGreaterThan(0); // Vérifier qu'il y a au moins un "Home"
-    expect(screen.getAllByText("Informations").length).toBeGreaterThan(0); // Vérifier qu'il y a au moins un "Informations"
+    expect(screen.getAllByText("Home").length).toBeGreaterThan(0); 
+    expect(screen.getAllByText("Informations").length).toBeGreaterThan(0); 
   });
 });

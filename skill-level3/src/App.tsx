@@ -3,9 +3,8 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import InformationPage from "./pages/InformationPage";
-
-import store from "./redux/store";
 import ThemeToggle from "./services/theme/ThemeToogle";
+import store from "./redux/store";
 
 function App() {
   return (

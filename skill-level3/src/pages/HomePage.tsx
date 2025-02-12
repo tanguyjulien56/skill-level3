@@ -4,24 +4,20 @@ import { Link } from "react-router";
 import { RootState } from "../redux/store";
 import { UserData } from "../types/userService";
 
-// Chargement dynamique de UserProfileCard
 const UserProfileCard = lazy(() => import("../components/UserProfileCard"));
 
 const HomePage: React.FC = () => {
-  // Récupérer les données utilisateur depuis Redux
   const userState = useSelector((state: RootState) => state.user);
 
-  // Construire userData uniquement si userState change
   const userData = useMemo<UserData>(
     () => ({
       firstName: userState.firstName || "",
       lastName: userState.lastName || "",
       birthDate: userState.birthDate || "",
-      image: userState.image || "", // Vérifier si l'image est présente
+      image: userState.image || "",
     }),
     [userState]
   );
-
   const hasValidUser = userData.firstName && userData.lastName;
 
   return (

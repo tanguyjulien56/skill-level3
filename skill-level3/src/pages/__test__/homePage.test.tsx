@@ -10,11 +10,14 @@ jest.mock("react-router", () => ({
   ),
 }));
 
-jest.mock("react-redux"); // Mock de tout le module react-redux
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+}));
 
 describe("HomePage", () => {
   it("Should display an error message if no user data is available", () => {
-    // Utilisation de jest.spyOn pour espionner useSelector
     const useSelectorSpy = jest.spyOn(redux, "useSelector");
     useSelectorSpy.mockReturnValue({
       firstName: "",
@@ -22,17 +25,14 @@ describe("HomePage", () => {
       birthDate: null,
     });
 
-    // Rendu du composant
     const { getByText } = render(<HomePage />);
 
-    // Vérification de l'affichage du message d'erreur
     expect(
       getByText("Aucune donnée utilisateur disponible")
     ).toBeInTheDocument();
   });
 
   it("Should display the `UserProfileCard` if valid user data is available", async () => {
-    // Simule useSelector pour retourner des données utilisateur valides
     const useSelectorSpy = jest.spyOn(redux, "useSelector");
     useSelectorSpy.mockReturnValue({
       firstName: "John",
@@ -40,10 +40,12 @@ describe("HomePage", () => {
       birthDate: "1990-01-01",
     });
 
-    // Rendu du composant
+    // Simuler `dispatch` pour ne pas lever d'erreur
+    const dispatchMock = jest.fn();
+    jest.spyOn(redux, "useDispatch").mockReturnValue(dispatchMock);
+
     const { getByText } = render(<HomePage />);
 
-    // Attendre le rendu du UserProfileCard
     await waitFor(() => expect(getByText("John Doe")).toBeInTheDocument());
   });
 });
